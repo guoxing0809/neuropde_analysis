@@ -1,0 +1,40 @@
+data:
+  mesh:
+    resolution: [50, 50]
+    Re: 100
+    order: 2
+  data_file: null
+  ref_file: 'lid_driven_Re100_w50_h50_ref_interp.npy'
+model:
+  pinn_c:
+    input_dim: 2
+    output_dim: 3
+    num_layers: 4
+    hidden_units: 32
+    bias: True
+    act: 'swish'
+    discrete: False
+    hard_bc: True
+  pinn_d:
+    input_dim: 2
+    output_dim: 3
+    num_layers: 4
+    hidden_units: 32
+    bias: True
+    act: 'swish'
+    discrete: True
+    hard_bc: True
+    upwind: False
+  pignn:
+    input_dim: 2
+    output_dim: 3
+    num_layers: 4
+    hidden_units: 32
+    bias: True
+    act: 'swish'
+    hard_bc: True
+    upwind: False
+    gnn: 'gat'  # select one from (gcn, gat, sage)
+    heads: 5  # augment required for gat
+    concat: False  # augment required for gat (if set to True, model layers should be modified manually)
+#    aggr: 'max'  # augment required for sage, select one from (add, mean, max, lstm)

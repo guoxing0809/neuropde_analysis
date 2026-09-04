@@ -1,0 +1,37 @@
+data:
+  mesh:
+    resolution: [20, 20]
+    order: 2
+  data_file: null
+  ref_file: null
+model:
+  pinn_c:
+    input_dim: 2
+    output_dim: 1
+    num_layers: 2
+    hidden_units: 16
+    bias: True
+    act: 'tanh'
+    discrete: False
+    hard_bc: True
+  pinn_d:
+    input_dim: 2
+    output_dim: 1
+    num_layers: 2
+    hidden_units: 16
+    bias: True
+    act: 'tanh'
+    discrete: True
+    hard_bc: True
+  pignn:
+    input_dim: 2
+    output_dim: 1
+    num_layers: 2
+    hidden_units: 16
+    bias: True
+    act: 'tanh'
+    hard_bc: True
+    gnn: 'gat'  # select one from (gcn, gat, sage)
+    heads: 5  # augment required for gat
+    concat: False  # augment required for gat (if set to True, model layers should be modified manually)
+#    aggr: 'max'  # augment required for sage, select one from (add, mean, max, lstm)
