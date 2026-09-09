@@ -50,3 +50,16 @@ python train.py -m pinn_c/pinn_d/pignn -pde bward_step -a 1. -b 1.
 python train.py -m pinn_c/pinn_d/pignn -pde bowshock -a 1. -b 1.
 ```
 Adjust model and PDE settings in configuration files located in `configs/`.
+
+## Citation
+```
+@misc{guo2026systematicanalysisautomaticdifferentiation,
+      title={A Systematic Analysis of Automatic Differentiation versus Discretization-based Constraints for Physics-Informed PDE Solvers}, 
+      author={Xing Guo and Hongwei Tang and Zewei Meng and Yidong Zhang and Shaoqiu Xiao and Feng Liu},
+      year={2026},
+      eprint={2609.07437},
+      archivePrefix={arXiv},
+      primaryClass={math.NA},
+      url={https://arxiv.org/abs/2609.07437}, 
+}
+```
