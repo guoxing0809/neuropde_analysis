@@ -1444,10 +1444,10 @@ class CPGNSFVMSolver:
         Fa3_f = self.dual_length * (0.5 * (Fa_l[2] + Fa_r[2]) - 0.5 * lambda_max * (rhov_r - rhov_l))  # axis-y momentum
         Fa4_f = self.dual_length * (0.5 * (Fa_l[3] + Fa_r[3]) - 0.5 * lambda_max * (rhoE_r - rhoE_l))  # energy
         indices = self.xp.hstack([self.vi, self.vj])
-        Fa1 = self._scatter_aggregate(indices, np.hstack([Fa1_f, -Fa1_f]), self.n_idx, 'add')
-        Fa2 = self._scatter_aggregate(indices, np.hstack([Fa2_f, -Fa2_f]), self.n_idx, 'add')
-        Fa3 = self._scatter_aggregate(indices, np.hstack([Fa3_f, -Fa3_f]), self.n_idx, 'add')
-        Fa4 = self._scatter_aggregate(indices, np.hstack([Fa4_f, -Fa4_f]), self.n_idx, 'add')
+        Fa1 = self._scatter_aggregate(indices, self.xp.hstack([Fa1_f, -Fa1_f]), self.n_idx, 'add')
+        Fa2 = self._scatter_aggregate(indices, self.xp.hstack([Fa2_f, -Fa2_f]), self.n_idx, 'add')
+        Fa3 = self._scatter_aggregate(indices, self.xp.hstack([Fa3_f, -Fa3_f]), self.n_idx, 'add')
+        Fa4 = self._scatter_aggregate(indices, self.xp.hstack([Fa4_f, -Fa4_f]), self.n_idx, 'add')
         return self.xp.column_stack([Fa1, Fa2, Fa3, Fa4])
 
     def _asump_solver(self, vars_l, vars_r, U_l, U_r, alpha=3 / 16, beta=1 / 8):
@@ -1481,10 +1481,10 @@ class CPGNSFVMSolver:
         Fa3_f = self.dual_length * (c_f * (rhov_l * m_f_plus + rhov_r * m_f_minus) + p_f * self.fny)
         Fa4_f = self.dual_length * c_f * ((rhoE_l + p_l) * m_f_plus + (rhoE_r + p_r) * m_f_minus)
         indices = self.xp.hstack([self.vi, self.vj])
-        Fa1 = self._scatter_aggregate(indices, np.hstack([Fa1_f, -Fa1_f]), self.n_idx, 'add')
-        Fa2 = self._scatter_aggregate(indices, np.hstack([Fa2_f, -Fa2_f]), self.n_idx, 'add')
-        Fa3 = self._scatter_aggregate(indices, np.hstack([Fa3_f, -Fa3_f]), self.n_idx, 'add')
-        Fa4 = self._scatter_aggregate(indices, np.hstack([Fa4_f, -Fa4_f]), self.n_idx, 'add')
+        Fa1 = self._scatter_aggregate(indices, self.xp.hstack([Fa1_f, -Fa1_f]), self.n_idx, 'add')
+        Fa2 = self._scatter_aggregate(indices, self.xp.hstack([Fa2_f, -Fa2_f]), self.n_idx, 'add')
+        Fa3 = self._scatter_aggregate(indices, self.xp.hstack([Fa3_f, -Fa3_f]), self.n_idx, 'add')
+        Fa4 = self._scatter_aggregate(indices, self.xp.hstack([Fa4_f, -Fa4_f]), self.n_idx, 'add')
         return self.xp.column_stack([Fa1, Fa2, Fa3, Fa4])
 
     def _asumpp_solver(self, vars_l, vars_r, U_l, U_r, k=0.1, kp=0.25, ku=0.1, sigma=0.5, alpha=3 / 16,
@@ -1532,10 +1532,10 @@ class CPGNSFVMSolver:
         Fa3_f = Fa1_f * v_f + self.dual_length * p_f * self.fny
         Fa4_f = Fa1_f * H_f
         indices = self.xp.hstack([self.vi, self.vj])
-        Fa1 = self._scatter_aggregate(indices, np.hstack([Fa1_f, -Fa1_f]), self.n_idx, 'add')
-        Fa2 = self._scatter_aggregate(indices, np.hstack([Fa2_f, -Fa2_f]), self.n_idx, 'add')
-        Fa3 = self._scatter_aggregate(indices, np.hstack([Fa3_f, -Fa3_f]), self.n_idx, 'add')
-        Fa4 = self._scatter_aggregate(indices, np.hstack([Fa4_f, -Fa4_f]), self.n_idx, 'add')
+        Fa1 = self._scatter_aggregate(indices, self.xp.hstack([Fa1_f, -Fa1_f]), self.n_idx, 'add')
+        Fa2 = self._scatter_aggregate(indices, self.xp.hstack([Fa2_f, -Fa2_f]), self.n_idx, 'add')
+        Fa3 = self._scatter_aggregate(indices, self.xp.hstack([Fa3_f, -Fa3_f]), self.n_idx, 'add')
+        Fa4 = self._scatter_aggregate(indices, self.xp.hstack([Fa4_f, -Fa4_f]), self.n_idx, 'add')
         return self.xp.column_stack([Fa1, Fa2, Fa3, Fa4])
 
     def _asumpwp_solver(self, vars_l, vars_r, U_l, U_r, alpha=3 / 16, beta=1 / 8):
@@ -1574,10 +1574,10 @@ class CPGNSFVMSolver:
         Fa3_f = self.dual_length * (c_f * (rhov_l * mbar_plus + rhov_r * mbar_minus) + p_s * self.fny)
         Fa4_f = self.dual_length * c_f * ((rhoE_l + p_l) * mbar_plus + (rhoE_r + p_r) * mbar_minus)
         indices = self.xp.hstack([self.vi, self.vj])
-        Fa1 = self._scatter_aggregate(indices, np.hstack([Fa1_f, -Fa1_f]), self.n_idx, 'add')
-        Fa2 = self._scatter_aggregate(indices, np.hstack([Fa2_f, -Fa2_f]), self.n_idx, 'add')
-        Fa3 = self._scatter_aggregate(indices, np.hstack([Fa3_f, -Fa3_f]), self.n_idx, 'add')
-        Fa4 = self._scatter_aggregate(indices, np.hstack([Fa4_f, -Fa4_f]), self.n_idx, 'add')
+        Fa1 = self._scatter_aggregate(indices, self.xp.hstack([Fa1_f, -Fa1_f]), self.n_idx, 'add')
+        Fa2 = self._scatter_aggregate(indices, self.xp.hstack([Fa2_f, -Fa2_f]), self.n_idx, 'add')
+        Fa3 = self._scatter_aggregate(indices, self.xp.hstack([Fa3_f, -Fa3_f]), self.n_idx, 'add')
+        Fa4 = self._scatter_aggregate(indices, self.xp.hstack([Fa4_f, -Fa4_f]), self.n_idx, 'add')
         return self.xp.column_stack([Fa1, Fa2, Fa3, Fa4])
 
     def _roe_solver(self, vars_l, vars_r, U_l, U_r):
@@ -1624,10 +1624,10 @@ class CPGNSFVMSolver:
         Fa3_f = self.dual_length * (0.5 * (Fa_l[2] + Fa_r[2]) - 0.5 * rhov_dp)
         Fa4_f = self.dual_length * (0.5 * (Fa_l[3] + Fa_r[3]) - 0.5 * rhoE_dp)
         indices = self.xp.hstack([self.vi, self.vj])
-        Fa1 = self._scatter_aggregate(indices, np.hstack([Fa1_f, -Fa1_f]), self.n_idx, 'add')
-        Fa2 = self._scatter_aggregate(indices, np.hstack([Fa2_f, -Fa2_f]), self.n_idx, 'add')
-        Fa3 = self._scatter_aggregate(indices, np.hstack([Fa3_f, -Fa3_f]), self.n_idx, 'add')
-        Fa4 = self._scatter_aggregate(indices, np.hstack([Fa4_f, -Fa4_f]), self.n_idx, 'add')
+        Fa1 = self._scatter_aggregate(indices, self.xp.hstack([Fa1_f, -Fa1_f]), self.n_idx, 'add')
+        Fa2 = self._scatter_aggregate(indices, self.xp.hstack([Fa2_f, -Fa2_f]), self.n_idx, 'add')
+        Fa3 = self._scatter_aggregate(indices, self.xp.hstack([Fa3_f, -Fa3_f]), self.n_idx, 'add')
+        Fa4 = self._scatter_aggregate(indices, self.xp.hstack([Fa4_f, -Fa4_f]), self.n_idx, 'add')
         return self.xp.column_stack([Fa1, Fa2, Fa3, Fa4])
 
     def _flux_advection(self, vars_l, vars_r, U_l, U_r):
@@ -2131,10 +2131,10 @@ class CPGEulerFVMSolver:
         Fa3_f = self.dual_length * (0.5 * (Fa_l[2] + Fa_r[2]) - 0.5 * lambda_max * (rhov_r - rhov_l))  # axis-y momentum
         Fa4_f = self.dual_length * (0.5 * (Fa_l[3] + Fa_r[3]) - 0.5 * lambda_max * (rhoE_r - rhoE_l))  # energy
         indices = self.xp.hstack([self.vi, self.vj])
-        Fa1 = self._scatter_aggregate(indices, np.hstack([Fa1_f, -Fa1_f]), self.n_idx, 'add')
-        Fa2 = self._scatter_aggregate(indices, np.hstack([Fa2_f, -Fa2_f]), self.n_idx, 'add')
-        Fa3 = self._scatter_aggregate(indices, np.hstack([Fa3_f, -Fa3_f]), self.n_idx, 'add')
-        Fa4 = self._scatter_aggregate(indices, np.hstack([Fa4_f, -Fa4_f]), self.n_idx, 'add')
+        Fa1 = self._scatter_aggregate(indices, self.xp.hstack([Fa1_f, -Fa1_f]), self.n_idx, 'add')
+        Fa2 = self._scatter_aggregate(indices, self.xp.hstack([Fa2_f, -Fa2_f]), self.n_idx, 'add')
+        Fa3 = self._scatter_aggregate(indices, self.xp.hstack([Fa3_f, -Fa3_f]), self.n_idx, 'add')
+        Fa4 = self._scatter_aggregate(indices, self.xp.hstack([Fa4_f, -Fa4_f]), self.n_idx, 'add')
         return self.xp.column_stack([Fa1, Fa2, Fa3, Fa4])
 
     def _asump_solver(self, vars_l, vars_r, U_l, U_r, alpha=3 / 16, beta=1 / 8):
@@ -2168,10 +2168,10 @@ class CPGEulerFVMSolver:
         Fa3_f = self.dual_length * (c_f * (rhov_l * m_f_plus + rhov_r * m_f_minus) + p_f * self.fny)
         Fa4_f = self.dual_length * c_f * ((rhoE_l + p_l) * m_f_plus + (rhoE_r + p_r) * m_f_minus)
         indices = self.xp.hstack([self.vi, self.vj])
-        Fa1 = self._scatter_aggregate(indices, np.hstack([Fa1_f, -Fa1_f]), self.n_idx, 'add')
-        Fa2 = self._scatter_aggregate(indices, np.hstack([Fa2_f, -Fa2_f]), self.n_idx, 'add')
-        Fa3 = self._scatter_aggregate(indices, np.hstack([Fa3_f, -Fa3_f]), self.n_idx, 'add')
-        Fa4 = self._scatter_aggregate(indices, np.hstack([Fa4_f, -Fa4_f]), self.n_idx, 'add')
+        Fa1 = self._scatter_aggregate(indices, self.xp.hstack([Fa1_f, -Fa1_f]), self.n_idx, 'add')
+        Fa2 = self._scatter_aggregate(indices, self.xp.hstack([Fa2_f, -Fa2_f]), self.n_idx, 'add')
+        Fa3 = self._scatter_aggregate(indices, self.xp.hstack([Fa3_f, -Fa3_f]), self.n_idx, 'add')
+        Fa4 = self._scatter_aggregate(indices, self.xp.hstack([Fa4_f, -Fa4_f]), self.n_idx, 'add')
         return self.xp.column_stack([Fa1, Fa2, Fa3, Fa4])
 
     def _asumpp_solver(self, vars_l, vars_r, U_l, U_r, k=0.1, kp=0.25, ku=0.1, sigma=0.5, alpha=3 / 16, beta=1 / 8):
@@ -2219,10 +2219,10 @@ class CPGEulerFVMSolver:
         Fa3_f = Fa1_f * v_f + self.dual_length * p_f * self.fny
         Fa4_f = Fa1_f * H_f
         indices = self.xp.hstack([self.vi, self.vj])
-        Fa1 = self._scatter_aggregate(indices, np.hstack([Fa1_f, -Fa1_f]), self.n_idx, 'add')
-        Fa2 = self._scatter_aggregate(indices, np.hstack([Fa2_f, -Fa2_f]), self.n_idx, 'add')
-        Fa3 = self._scatter_aggregate(indices, np.hstack([Fa3_f, -Fa3_f]), self.n_idx, 'add')
-        Fa4 = self._scatter_aggregate(indices, np.hstack([Fa4_f, -Fa4_f]), self.n_idx, 'add')
+        Fa1 = self._scatter_aggregate(indices, self.xp.hstack([Fa1_f, -Fa1_f]), self.n_idx, 'add')
+        Fa2 = self._scatter_aggregate(indices, self.xp.hstack([Fa2_f, -Fa2_f]), self.n_idx, 'add')
+        Fa3 = self._scatter_aggregate(indices, self.xp.hstack([Fa3_f, -Fa3_f]), self.n_idx, 'add')
+        Fa4 = self._scatter_aggregate(indices, self.xp.hstack([Fa4_f, -Fa4_f]), self.n_idx, 'add')
         return self.xp.column_stack([Fa1, Fa2, Fa3, Fa4])
 
     def _asumpwp_solver(self, vars_l, vars_r, U_l, U_r, alpha=3 / 16, beta=1 / 8):
@@ -2261,10 +2261,10 @@ class CPGEulerFVMSolver:
         Fa3_f = self.dual_length * (c_f * (rhov_l * mbar_plus + rhov_r * mbar_minus) + p_s * self.fny)
         Fa4_f = self.dual_length * c_f * ((rhoE_l + p_l) * mbar_plus + (rhoE_r + p_r) * mbar_minus)
         indices = self.xp.hstack([self.vi, self.vj])
-        Fa1 = self._scatter_aggregate(indices, np.hstack([Fa1_f, -Fa1_f]), self.n_idx, 'add')
-        Fa2 = self._scatter_aggregate(indices, np.hstack([Fa2_f, -Fa2_f]), self.n_idx, 'add')
-        Fa3 = self._scatter_aggregate(indices, np.hstack([Fa3_f, -Fa3_f]), self.n_idx, 'add')
-        Fa4 = self._scatter_aggregate(indices, np.hstack([Fa4_f, -Fa4_f]), self.n_idx, 'add')
+        Fa1 = self._scatter_aggregate(indices, self.xp.hstack([Fa1_f, -Fa1_f]), self.n_idx, 'add')
+        Fa2 = self._scatter_aggregate(indices, self.xp.hstack([Fa2_f, -Fa2_f]), self.n_idx, 'add')
+        Fa3 = self._scatter_aggregate(indices, self.xp.hstack([Fa3_f, -Fa3_f]), self.n_idx, 'add')
+        Fa4 = self._scatter_aggregate(indices, self.xp.hstack([Fa4_f, -Fa4_f]), self.n_idx, 'add')
         return self.xp.column_stack([Fa1, Fa2, Fa3, Fa4])
 
     def _roe_solver(self, vars_l, vars_r, U_l, U_r):
@@ -2311,10 +2311,10 @@ class CPGEulerFVMSolver:
         Fa3_f = self.dual_length * (0.5 * (Fa_l[2] + Fa_r[2]) - 0.5 * rhov_dp)
         Fa4_f = self.dual_length * (0.5 * (Fa_l[3] + Fa_r[3]) - 0.5 * rhoE_dp)
         indices = self.xp.hstack([self.vi, self.vj])
-        Fa1 = self._scatter_aggregate(indices, np.hstack([Fa1_f, -Fa1_f]), self.n_idx, 'add')
-        Fa2 = self._scatter_aggregate(indices, np.hstack([Fa2_f, -Fa2_f]), self.n_idx, 'add')
-        Fa3 = self._scatter_aggregate(indices, np.hstack([Fa3_f, -Fa3_f]), self.n_idx, 'add')
-        Fa4 = self._scatter_aggregate(indices, np.hstack([Fa4_f, -Fa4_f]), self.n_idx, 'add')
+        Fa1 = self._scatter_aggregate(indices, self.xp.hstack([Fa1_f, -Fa1_f]), self.n_idx, 'add')
+        Fa2 = self._scatter_aggregate(indices, self.xp.hstack([Fa2_f, -Fa2_f]), self.n_idx, 'add')
+        Fa3 = self._scatter_aggregate(indices, self.xp.hstack([Fa3_f, -Fa3_f]), self.n_idx, 'add')
+        Fa4 = self._scatter_aggregate(indices, self.xp.hstack([Fa4_f, -Fa4_f]), self.n_idx, 'add')
         return self.xp.column_stack([Fa1, Fa2, Fa3, Fa4])
 
     def _flux_advection(self, vars_l, vars_r, U_l, U_r):
