@@ -1427,7 +1427,9 @@ class CPGNSFVMSolver:
         theta_j = self.xp.maximum((phi[self.vi] - phi[self.vj]) / del_phi_j, 0.0)
         theta_j = self.xp.where(phi_fj > neigh_max[self.vj], del_max_j / del_phi_j, theta_j)
         theta_j = self.xp.where(phi_fj < neigh_min[self.vj], del_min_j / del_phi_j, theta_j)
-        weight = self._scatter_aggregate(self.edge_nodes.ravel(), self.xp.hstack([theta_i, theta_j]), self.n_idx, 'min')
+        # weight = self._scatter_aggregate(self.edge_nodes.ravel(), self.xp.hstack([theta_i, theta_j]), self.n_idx, 'min')
+        theta_c = self.xp.column_stack([theta_i, theta_j])
+        weight = self._scatter_aggregate(self.edge_nodes.ravel(), theta_c.ravel(), self.n_idx, 'min')
         grad_phi_c = weight[:, None] * grad_phi
         return grad_phi_c
 
@@ -2114,7 +2116,9 @@ class CPGEulerFVMSolver:
         theta_j = self.xp.maximum((phi[self.vi] - phi[self.vj]) / del_phi_j, 0.0)
         theta_j = self.xp.where(phi_fj > neigh_max[self.vj], del_max_j / del_phi_j, theta_j)
         theta_j = self.xp.where(phi_fj < neigh_min[self.vj], del_min_j / del_phi_j, theta_j)
-        weight = self._scatter_aggregate(self.edge_nodes.ravel(), self.xp.hstack([theta_i, theta_j]), self.n_idx, 'min')
+        # weight = self._scatter_aggregate(self.edge_nodes.ravel(), self.xp.hstack([theta_i, theta_j]), self.n_idx, 'min')
+        theta_c = self.xp.column_stack([theta_i, theta_j])
+        weight = self._scatter_aggregate(self.edge_nodes.ravel(), theta_c.ravel(), self.n_idx, 'min')
         grad_phi_c = weight[:, None] * grad_phi
         return grad_phi_c
 
