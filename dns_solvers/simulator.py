@@ -1523,7 +1523,8 @@ class CPGNSFVMSolver:
                                m2_lp * (2 - m_l - 16 * alpha * (-4 + 5 * fa ** 2) * m_l * m2_lm))
         p_minus = self.xp.where(self.xp.abs(m_r) > 1.0, m1_rm / m_r,
                                 m2_rm * (-2 - m_r + 16 * alpha * (-4 + 5 * fa ** 2) * m_r * m2_rp))
-        p_u = ku * p_plus * p_minus * (rho_l + rho_r) * fa * c_f * (u_r - u_l)
+        # p_u = ku * p_plus * p_minus * (rho_l + rho_r) * fa * c_f * (u_r - u_l)
+        p_u = ku * p_plus * p_minus * (rho_l + rho_r) * fa * c_f * (un_r - un_l)
         p_f = p_plus * p_l + p_minus * p_r - p_u
         rho_f = self.xp.where(m_f > 0.0, rho_l, rho_r)
         Fa1_f = self.dual_length * c_f * m_f * rho_f
@@ -1591,11 +1592,13 @@ class CPGNSFVMSolver:
         wl_rho = self.xp.sqrt(rho_l)
         wl_rhou = wl_rho * u_l
         wl_rhov = wl_rho * v_l
-        wl_rhoH = wl_rho * (rhoE_l / rho_l + p_l)
+        # wl_rhoH = wl_rho * (rhoE_l / rho_l + p_l)
+        wl_rhoH = wl_rho * (rhoE_l + p_l) / rho_l
         wr_rho = self.xp.sqrt(rho_r)
         wr_rhou = wr_rho * u_r
         wr_rhov = wr_rho * v_r
-        wr_rhoH = wr_rho * (rhoE_r / rho_r + p_r)
+        # wr_rhoH = wr_rho * (rhoE_r / rho_r + p_r)
+        wr_rhoH = wr_rho * (rhoE_r + p_r) / rho_r
         rho_roe = wl_rho + wr_rho
         u_roe = (wl_rhou + wr_rhou) / rho_roe
         v_roe = (wl_rhov + wr_rhov) / rho_roe
@@ -2212,7 +2215,8 @@ class CPGEulerFVMSolver:
                                m2_lp * (2 - m_l - 16 * alpha * (-4 + 5 * fa ** 2) * m_l * m2_lm))
         p_minus = self.xp.where(self.xp.abs(m_r) > 1.0, m1_rm / m_r,
                                 m2_rm * (-2 - m_r + 16 * alpha * (-4 + 5 * fa ** 2) * m_r * m2_rp))
-        p_u = ku * p_plus * p_minus * (rho_l + rho_r) * fa * c_f * (u_r - u_l)
+        # p_u = ku * p_plus * p_minus * (rho_l + rho_r) * fa * c_f * (u_r - u_l)
+        p_u = ku * p_plus * p_minus * (rho_l + rho_r) * fa * c_f * (un_r - un_l)
         p_f = p_plus * p_l + p_minus * p_r - p_u
         rho_f = self.xp.where(m_f > 0.0, rho_l, rho_r)
         Fa1_f = self.dual_length * c_f * m_f * rho_f
@@ -2280,11 +2284,13 @@ class CPGEulerFVMSolver:
         wl_rho = self.xp.sqrt(rho_l)
         wl_rhou = wl_rho * u_l
         wl_rhov = wl_rho * v_l
-        wl_rhoH = wl_rho * (rhoE_l / rho_l + p_l)
+        # wl_rhoH = wl_rho * (rhoE_l / rho_l + p_l)
+        wl_rhoH = wl_rho * (rhoE_l + p_l) / rho_l
         wr_rho = self.xp.sqrt(rho_r)
         wr_rhou = wr_rho * u_r
         wr_rhov = wr_rho * v_r
-        wr_rhoH = wr_rho * (rhoE_r / rho_r + p_r)
+        # wr_rhoH = wr_rho * (rhoE_r / rho_r + p_r)
+        wr_rhoH = wr_rho * (rhoE_r + p_r) / rho_r
         rho_roe = wl_rho + wr_rho
         u_roe = (wl_rhou + wr_rhou) / rho_roe
         v_roe = (wl_rhov + wr_rhov) / rho_roe
