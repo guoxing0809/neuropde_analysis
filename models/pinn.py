@@ -127,12 +127,23 @@ class PolynomPINN(BasePINN):
     def __init__(self, input_dim, output_dim, num_layers, hidden_units, bias, act, discrete=False, hard_bc=True):
         super().__init__(input_dim, output_dim, num_layers, hidden_units, bias, act, discrete, hard_bc)
 
+    # def _hard_constraint(self, u, *args, **kwargs):
+    #     x, y = args
+    #     a = torch.pi / 6.0
+    #     d = (x + a) * (x - a) * (y + a) * (y - a)
+    #     g = torch.tan(x + y)
+    #     return u * d + g * (1.0 - d)
     def _hard_constraint(self, u, *args, **kwargs):
-        x, y = args
-        a = torch.pi / 6.0
-        d = (x + a) * (x - a) * (y + a) * (y - a)
-        g = torch.tan(x + y)
-        return u * d + g * (1.0 - d)
+    x, y = args
+    a = torch.pi / 6.0
+    g = ((a - x) / (2 * a) * torch.tan(y - a)
+         + (a + x) / (2 * a) * torch.tan(y + a)
+         + (a - y) / (2 * a) * torch.tan(x - a)
+         + (a + y) / (2 * a) * torch.tan(x + a)
+         + 3 ** 0.5 * (a - x) * (a - y) / (4 * a * a)
+         - 3 ** 0.5 * (a + x) * (a + y) / (4 * a * a))
+    d = (x + a) * (x - a) * (y + a) * (y - a)
+    return u * d + g * (1.0 - d)
 
     def _numerical_diff(self, coef_matrix, u):
         return torch.sparse.mm(coef_matrix, u)
