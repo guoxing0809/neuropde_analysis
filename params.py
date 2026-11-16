@@ -40,7 +40,7 @@ models = {'sine': {'pinn_c': SinePINN,
                        'pignn': BSWPIGNN}}
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-m', '--model', type=str, default='pinn_c', choices=['pignn', 'pinn_d', 'pignn'],
+parser.add_argument('-m', '--model', type=str, default='pinn_c', choices=['pinn_c', 'pinn_d', 'pignn'],
                     help='Model type: pinn_c (PINN-continuous, auto-diff), pinn_d (PINN-discrete, num-diff), pignn (Physics-Informed GNN).')
 parser.add_argument('-pde', '--pde', type=str, default='sine',
                     choices=['sine', 'polynom', 'liouville', 'lid_driven', 'bward_step', 'bowshock'])
