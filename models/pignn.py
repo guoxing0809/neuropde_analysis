@@ -142,11 +142,21 @@ class PolynomPIGNN(BasePIGNN):
     def __init__(self, input_dim, output_dim, num_layers, hidden_units, bias, act, hard_bc=True, gnn='gcn', **kwargs):
         super().__init__(input_dim, output_dim, num_layers, hidden_units, bias, act, hard_bc, gnn, **kwargs)
 
+    # def _hard_constraint(self, x, u, **kwargs):
+    #     a = torch.pi / 6.0
+    #     d = (x[:, 0:1] + a) * (x[:, 0:1] - a) * (x[:, 1:2] + a) * (x[:, 1:2] - a)
+    #     g = torch.tan(x[:, 0:1] + x[:, 1:2])
+    #     return u * d + g * (1.0 - d)
     def _hard_constraint(self, x, u, **kwargs):
-        a = torch.pi / 6.0
-        d = (x[:, 0:1] + a) * (x[:, 0:1] - a) * (x[:, 1:2] + a) * (x[:, 1:2] - a)
-        g = torch.tan(x[:, 0:1] + x[:, 1:2])
-        return u * d + g * (1.0 - d)
+    a = torch.pi / 6.0
+    d = (x[:, 0:1] + a) * (x[:, 0:1] - a) * (x[:, 1:2] + a) * (x[:, 1:2] - a)
+    g = ((a - x[:, 0:1]) / (2 * a) * torch.tan(x[:, 1:2] - a)
+         + (a + x[:, 0:1]) / (2 * a) * torch.tan(x[:, 1:2] + a)
+         + (a - x[:, 1:2]) / (2 * a) * torch.tan(x[:, 0:1] - a)
+         + (a + x[:, 1:2]) / (2 * a) * torch.tan(x[:, 0:1] + a)
+         + 3 ** 0.5 * (a - x[:, 0:1]) * (a - x[:, 1:2]) / (4 * a * a)
+         - 3 ** 0.5 * (a + x[:, 0:1]) * (a + x[:, 1:2]) / (4 * a * a))
+    return u * d + g * (1.0 - d)
 
     def _partial_term(self, x, u, **kwargs):
         coef_matrix = kwargs.get('coef_matrix')
